@@ -1,9 +1,9 @@
 package crawl
 
 import (
-	"net/http"
 	"code.google.com/p/go.net/html"
 	"fmt"
+	"net/http"
 )
 
 func OutputURL(url string) {
@@ -24,7 +24,7 @@ func OutputURL(url string) {
 	descent = func(node *html.Node) {
 		if node.Type == html.ElementNode && (node.Data == "a" || node.Data == "link" || node.Data == "img") {
 			for _, attr := range node.Attr {
-				if (attr.Key == "href" || attr.Key == "src") {
+				if attr.Key == "href" || attr.Key == "src" {
 					fmt.Println(attr.Val)
 				}
 			}
