@@ -21,7 +21,10 @@ TODO
 Task | Completed | Comment
 -----|-----------|--------
 URL detection ||
-Robot Acceptance||
-Ignore List Conformance||
+Robot Conformance||
+Social Media Conformance||
 Recursive Depth Crawl||
-more tasks to be added||
+Dependency Detection||
+Page Hierarchy Structure||
+
+more tasks to be added when needed
