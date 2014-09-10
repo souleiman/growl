@@ -1,4 +1,4 @@
-Growl
+GrOwl
 =========
 A web crawler written in Go. Get it? GrOwl :D
 
