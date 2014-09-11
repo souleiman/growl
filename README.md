@@ -14,7 +14,7 @@ Requirements
 
 Usage
 ------------
-Work in Progress
+        growl -u <url>
 
 TODO
 ------------
