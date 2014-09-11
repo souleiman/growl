@@ -14,7 +14,7 @@ Requirements
 
 Usage
 ------------
-        growl -u <url>
+        > growl -u <url>
 
 TODO
 ------------
