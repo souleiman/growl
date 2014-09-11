@@ -4,6 +4,8 @@ import (
 	"code.google.com/p/go.net/html"
 	"fmt"
 	"net/http"
+	"io"
+	"log"
 )
 
 func OutputURL(url string) {
@@ -14,18 +16,27 @@ func OutputURL(url string) {
 	}
 	defer request.Body.Close()
 
-	document, err := html.Parse(request.Body)
+	tokens, _ := Tokenize(request.Body, PageRule, LinkAssetRule, ImageAssetRule, ScriptAssetRule)
+
+	for _, token := range(tokens) {
+		fmt.Println(token)
+	}
+}
+
+func Tokenize(r io.Reader, rules ...rule) (tokens []Token, err error) {
+	document, err := html.Parse(r)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 		return
 	}
 
+
 	var descent func(*html.Node)
 	descent = func(node *html.Node) {
-		if node.Type == html.ElementNode && (node.Data == "a" || node.Data == "link" || node.Data == "img") {
-			for _, attr := range node.Attr {
-				if attr.Key == "href" || attr.Key == "src" {
-					fmt.Println(attr.Val)
+		if node.Type == html.ElementNode {
+			for _, task := range(rules) {
+				if code, value := task(node); code != FAIL {
+					tokens = append(tokens, Token{code: code, value: value})
 				}
 			}
 		}
@@ -36,4 +47,5 @@ func OutputURL(url string) {
 	}
 
 	descent(document)
+	return tokens, nil
 }
