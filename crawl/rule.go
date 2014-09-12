@@ -3,15 +3,16 @@ package crawl
 import "code.google.com/p/go.net/html"
 
 const (
-	FAIL = -1
-	PAGE = 1
+	FAIL  = -1
+	IGN   = 0
+	PAGE  = 1
 	ASSET = 2
 )
 
-type rule func(*html.Node) (rule_code int, value string)
+type rule func(*html.Node) (int, string)
 
 func PageRule(node *html.Node) (int, string) {
-	return generalized_rule(node, PAGE, "a", "href");
+	return generalized_rule(node, PAGE, "a", "href")
 }
 
 func LinkAssetRule(node *html.Node) (int, string) {
@@ -28,7 +29,7 @@ func ScriptAssetRule(node *html.Node) (int, string) {
 
 func generalized_rule(node *html.Node, code int, data, key string) (int, string) {
 	if node.Data == data {
-		for _, attr := range(node.Attr) {
+		for _, attr := range node.Attr {
 			if attr.Key == key {
 				return code, attr.Val
 			}

@@ -3,40 +3,41 @@ package crawl
 import (
 	"code.google.com/p/go.net/html"
 	"fmt"
-	"net/http"
 	"io"
 	"log"
+	"net/http"
 )
 
 func OutputURL(url string) {
 	request, err := http.Get(url)
 	if err != nil {
-		fmt.Println("Failed to open stream.")
+		log.Println("Failed to open stream: ", err)
 		return
 	}
 	defer request.Body.Close()
 
-	tokens, _ := Tokenize(request.Body, PageRule, LinkAssetRule, ImageAssetRule, ScriptAssetRule)
+	tokens, err := Tokenize(request.Body, PageRule, LinkAssetRule, ImageAssetRule, ScriptAssetRule)
 
-	for _, token := range(tokens) {
-		fmt.Println(token)
+	for path, code := range tokens {
+		fmt.Println(code, path)
 	}
 }
 
-func Tokenize(r io.Reader, rules ...rule) (tokens []Token, err error) {
+func Tokenize(r io.Reader, rules ...rule) (token_set map[string]int, err error) {
 	document, err := html.Parse(r)
 	if err != nil {
 		log.Fatalln(err)
 		return
 	}
 
-
+	token_set = make(map[string]int) // Avoid duplicate tokens
 	var descent func(*html.Node)
 	descent = func(node *html.Node) {
 		if node.Type == html.ElementNode {
-			for _, task := range(rules) {
+			for _, task := range rules {
 				if code, value := task(node); code != FAIL {
-					tokens = append(tokens, Token{code: code, value: value})
+					token_set[value] = code
+					break
 				}
 			}
 		}
@@ -47,5 +48,5 @@ func Tokenize(r io.Reader, rules ...rule) (tokens []Token, err error) {
 	}
 
 	descent(document)
-	return tokens, nil
+	return
 }

@@ -19,7 +19,8 @@ Usage
 TODO
 ------------
 Task | Completed | Tested | Comment
------|-----------|--------|--------
+-----|:---------:|:------:|--------
+URL Extraction |✓|✓| 9/12/14
 URL detection |||
 Robot Conformance|||
 Social Media Conformance|||
