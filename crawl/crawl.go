@@ -8,6 +8,8 @@ import (
 	"net/http"
 )
 
+// Outputs results of Tokenize() from the given url string
+// To be used for debugging purpose
 func OutputURL(url string) {
 	request, err := http.Get(url)
 	if err != nil {
@@ -23,7 +25,10 @@ func OutputURL(url string) {
 	}
 }
 
-func Tokenize(r io.Reader, rules ...rule) (token_set map[string]int, err error) {
+// Tokenize the HTML structure from the Reader r and generates a set of token based on the rules provided
+// Each token(key) will denote an integer identifying the token type.
+// If an error occurs, it will mostly happen from the reader stream
+func Tokenize(r io.Reader, rules ...Rule) (token_set map[string]int, err error) {
 	document, err := html.Parse(r)
 	if err != nil {
 		log.Fatalln(err)
@@ -34,9 +39,9 @@ func Tokenize(r io.Reader, rules ...rule) (token_set map[string]int, err error) 
 	var descent func(*html.Node)
 	descent = func(node *html.Node) {
 		if node.Type == html.ElementNode {
-			for _, task := range rules {
+			for _, task := range rules { // Process the node based on each rule given
 				if code, value := task(node); code != FAIL {
-					token_set[value] = code
+					token_set[value] = code // If the rule given is valid, apply it to the map
 					break
 				}
 			}

@@ -10,7 +10,7 @@ type simple_rule_test struct {
 	html           string
 	expected_code  int
 	expected_value string
-	law            rule
+	rule            Rule
 }
 
 func (s simple_rule_test) assert(t *testing.T, actual_code int, actual_value string) {
@@ -31,7 +31,7 @@ func TestRules(t *testing.T) {
 	for _, test := range rules_test {
 		r := strings.NewReader(test.html)
 		document, _ := html.Parse(r)
-		code, val := crawl(document, test.law)
+		code, val := crawl(document, test.rule)
 		test.assert(t, code, val)
 	}
 
@@ -41,13 +41,13 @@ func TestRules(t *testing.T) {
 	if err != nil {
 	}
 
-	for _, law := range []rule{PageRule, ImageAssetRule, LinkAssetRule, ScriptAssetRule} {
+	for _, law := range []Rule{PageRule, ImageAssetRule, LinkAssetRule, ScriptAssetRule} {
 		code, val := crawl(document, law)
 		fail.assert(t, code, val)
 	}
 }
 
-func crawl(node *html.Node, r rule) (code int, val string) {
+func crawl(node *html.Node, r Rule) (code int, val string) {
 	if node.Type == html.ElementNode {
 		if code, val = r(node); code != FAIL {
 			return code, val
