@@ -30,10 +30,16 @@ func ImageAssetRule(node *html.Node) (int, string) {
 	return generalized_rule(node, ASSET, "img", "src")
 }
 
-// Checks if the given node is a script, if so return the result from 'src' and PAGE constant.
+// Checks if the given node is a script, if so return the result from 'src' and ASSET constant.
 // Otherwise, return a FAIL code
 func ScriptAssetRule(node *html.Node) (int, string) {
 	return generalized_rule(node, ASSET, "script", "src")
+}
+
+// Checks if the given node is a source tag which is used in multimedia format. Return any result from src attribute and ASSET constant.
+// Otherwise, return a FAIL code.
+func SourceAssetRule(node *html.Node) (int, string) {
+	return generalized_rule(node, ASSET, "source", "src")
 }
 
 // Helper function that allows the functions to provide the code value and expected test data to check for

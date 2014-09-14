@@ -10,7 +10,7 @@ type simple_rule_test struct {
 	html           string
 	expected_code  int
 	expected_value string
-	rule            Rule
+	rule           Rule
 }
 
 func (s simple_rule_test) assert(t *testing.T, actual_code int, actual_value string) {
@@ -26,7 +26,8 @@ func TestRules(t *testing.T) {
 		simple_rule_test{"<a href=\"www.example.com\" />", PAGE, "www.example.com", PageRule},
 		simple_rule_test{"<img src=\"/example.png\" />", ASSET, "/example.png", ImageAssetRule},
 		simple_rule_test{"<link href=\"/example.css\" />", ASSET, "/example.css", LinkAssetRule},
-		simple_rule_test{"<script src=\"/example.js\" />", ASSET, "/example.js", ScriptAssetRule}}
+		simple_rule_test{"<script src=\"/example.js\" />", ASSET, "/example.js", ScriptAssetRule},
+		simple_rule_test{"<source src=\"/example.mp4\" type=\"video/mp4\" />", ASSET, "/example.mp4", SourceAssetRule}}
 
 	for _, test := range rules_test {
 		r := strings.NewReader(test.html)

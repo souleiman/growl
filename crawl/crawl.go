@@ -18,7 +18,7 @@ func OutputURL(url string) {
 	}
 	defer request.Body.Close()
 
-	tokens, err := Tokenize(request.Body, PageRule, LinkAssetRule, ImageAssetRule, ScriptAssetRule)
+	tokens, err := Tokenize(request.Body, PageRule, LinkAssetRule, ImageAssetRule, ScriptAssetRule, SourceAssetRule)
 
 	for path, code := range tokens {
 		fmt.Println(code, path)
