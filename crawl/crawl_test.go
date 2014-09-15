@@ -18,6 +18,10 @@ func TestCrawl(t *testing.T) {
 		"/community/":        PAGE,
 		"/image.png":         ASSET,
 		"/image2.jpg":        ASSET,
+		"horse.ogg":          ASSET,
+		"horse.mp3":          ASSET,
+		"movie.mp4":          ASSET,
+		"movie.ogg":          ASSET,
 	}
 
 	file, err := os.Open("crawl_test.html")
@@ -27,7 +31,7 @@ func TestCrawl(t *testing.T) {
 	}
 	defer file.Close()
 
-	actual, err := Tokenize(bufio.NewReader(file), PageRule, ScriptAssetRule, LinkAssetRule, ImageAssetRule)
+	actual, err := Tokenize(bufio.NewReader(file), PageRule, ScriptAssetRule, LinkAssetRule, ImageAssetRule, SourceAssetRule)
 
 	if err != nil {
 		t.Fatalf("Should not have failed: ", err)

@@ -25,7 +25,7 @@ URL detection |||
 Robot Conformance|||
 Social Media Conformance|||
 Recursive Depth Crawl|||
-Dependency Detection|||
+Dependency Detection|✓|✓| 9/12/14
 Page Hierarchy Structure|||
 
 more tasks to be added when needed
